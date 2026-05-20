@@ -1,0 +1,8 @@
+{
+	"oj-path": "",
+	"default-contest-dirname-format": "{ContestID}",
+	"default-task-dirname-format": "{TaskLabel}",
+	"default-test-dirname-format": "test",
+	"default-task-choice": "all",
+	"default-template": "cpp"
+}

@@ -1,0 +1,10 @@
+{
+  "task": {
+    "program": [
+      ["main.cpp", "{TaskLabel}_main.cpp"],
+      ["generate.cpp", "{TaskLabel}_generate.cpp"],
+      ["main.cpp", "{TaskLabel}_tle.cpp"]
+    ],
+    "submit": ""
+  }
+}
