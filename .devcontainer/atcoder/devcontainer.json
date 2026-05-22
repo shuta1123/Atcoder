@@ -1,0 +1,41 @@
+{
+	"name": "cp-atcoder",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"LIBRARY_PATH": "${containerWorkspaceFolder}/library",
+			"NVM_VERSION": "v0.40.3"
+		}
+	},
+	"features": {
+		"ghcr.io/devcontainers/features/git:1": {}
+	},
+	"containerEnv": {
+		"ASAN_OPTIONS": "detect_leaks=0",
+		"TZ": "Asia/Tokyo"
+	},
+    "workspaceMount": "source=${localEnv:HOME}/Cpp/Atcoder/competitive,target=/workspace/competitive,type=bind,consistency=cached",
+    "workspaceFolder": "/workspace/competitive",
+	"mounts": [
+		"source=cp-atcoder-venv,target=${containerWorkspaceFolder}/venv,type=volume"
+	],
+	"postCreateCommand": "WORKSPACE_FOLDER=${containerWorkspaceFolder} SRC_FOLDER=${containerWorkspaceFolder}/.devcontainer/atcoder/src SECRET_FOLDER=${containerWorkspaceFolder}/.secret ${containerWorkspaceFolder}/.devcontainer/atcoder/script/postCreate.sh",
+	"postAttachCommand": "oj login --check https://atcoder.jp/; acc session; acc check-oj",
+	"waitFor": "postCreateCommand",
+	"customizations": {
+		"vscode": {
+			"extensions": [
+				"ms-vscode.cpptools-extension-pack",
+				"ms-python.python"
+			],
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "bash",
+				"terminal.integrated.profiles.linux": {
+					"bash": {
+						"path": "/bin/bash"
+					}
+				}
+			}
+		}
+	}
+}
