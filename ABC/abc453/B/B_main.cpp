@@ -26,5 +26,18 @@ using VVL = vector<VL>;
 const string YN[2] = {"Yes", "No"};
 
 int main() {
+    ll t,x,tmp;
+    VL a;
+    cin>>t>>x;
+    cin>>tmp;
+    a.push_back(tmp);
+    cout<<0<<' '<<a.at(a.size()-1)<<endl;
+    rep1(i,t){
+        cin>>tmp;
+        if(abs(tmp-a.at(a.size()-1))>=x){
+            a.push_back(tmp);
+            cout<<i<<' '<<a.at(a.size()-1)<<endl;
+        }
+    }
 
 }
