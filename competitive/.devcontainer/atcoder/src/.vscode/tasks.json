@@ -1,0 +1,540 @@
+{
+    "tasks": [
+        {
+            "type": "shell",
+            "label": "コンテスト用のフォルダを準備する",
+            "command": "acc",
+            "args": [
+                "new",
+                "${input:ContestId}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "ヘッダーファイルを展開して提出する",
+            "detail": "開いているファイルにoj-bundleを適用して生成したファイルを提出する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "execute oj-bundle",
+                "open expanded.cpp",
+                "submit expanded file"
+            ]
+        },
+        {
+            "type": "shell",
+            "label": "submit expanded file",
+            "command": "acc",
+            "args": [
+                "submit",
+                "${fileBasenameNoExtension}_expanded.cpp",
+                "--",
+                "--yes"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "type": "shell",
+            "label": "open expanded.cpp",
+            "command": "code",
+            "args": [
+                "${fileBasenameNoExtension}_expanded.cpp"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "type": "shell",
+            "label": "execute oj-bundle",
+            "command": "oj-bundle",
+            "args": [
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")",
+                "${fileBasename}",
+                ">",
+                "${fileBasenameNoExtension}_expanded.cpp"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "label": "テスト実行（通常ビルド）",
+            "detail": "開いているファイルをビルドしてoj tを実行する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "開いているファイルを通常ビルドする",
+                "execute oj test"
+            ],
+            "group":{
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "テスト実行（誤差ジャッジ/通常ビルド）",
+            "detail": "開いているファイルをビルドしてoj tを実行する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "開いているファイルを通常ビルドする",
+                "execute oj test --error 1e-6"
+            ],
+            "group":{
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "テスト実行（デバッグビルド）",
+            "detail": "開いているファイルをビルドしてoj tを実行する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "開いているファイルをデバッグビルドする",
+                "execute oj test"
+            ],
+            "group":{
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "label": "テスト実行（誤差ジャッジ/デバッグビルド）",
+            "detail": "開いているファイルをビルドしてoj tを実行する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "開いているファイルをデバッグビルドする",
+                "execute oj test --error 1e-6"
+            ],
+            "group":{
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "execute oj test",
+            "command": "oj",
+            "args": [
+                "test",
+                "--command",
+                "\"./${fileBasenameNoExtension}.out\"",
+                "--tle",
+                "30",
+                "--jobs",
+                "1",
+                "--display-mode",
+                "diff-all"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "type": "shell",
+            "label": "execute oj test --error 1e-6",
+            "command": "oj",
+            "args": [
+                "test",
+                "--command",
+                "\"./${fileBasenameNoExtension}.out\"",
+                "--tle",
+                "30",
+                "--jobs",
+                "1",
+                "--display-mode",
+                "diff-all",
+                "--error",
+                "1e-6"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "label": "main,generateを使ってREケースを見つける",
+            "detail": "開いているファイルと同じフォルダのmain,generateをビルドしてoj g/i --hackを実行する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build main,generate for oj hack",
+                "execute oj g/i hack with 2 files"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "execute oj g/i hack with 2 files",
+            "command": "oj",
+            "args": [
+                "generate-input",
+                "--tle",
+                "30",
+                "--jobs",
+                "4",
+                "--hack",
+                "./${fileDirnameBasename}_main.out",
+                "./${fileDirnameBasename}_generate.out"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "label": "build main,generate for oj hack",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "main file debug build",
+                "generate file normal build"
+            ],
+            "hide": true
+        },
+        {
+            "label": "main,tle,generateを使ってWAケースを見つける",
+            "detail": "開いているファイルと同じフォルダのmain,tle,generateをビルドしてoj g/i --hackを実行する",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "build main,tle,generate for oj hack",
+                "execute oj g/i hack with 3 files"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            }
+        },
+        {
+            "type": "shell",
+            "label": "execute oj g/i hack with 3 files",
+            "command": "oj",
+            "args": [
+                "generate-input",
+                "--tle",
+                "30",
+                "--jobs",
+                "4",
+                "--hack-expected",
+                "./${fileDirnameBasename}_tle.out",
+                "--hack",
+                "./${fileDirnameBasename}_main.out",
+                "./${fileDirnameBasename}_generate.out"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "hide": true
+        },
+        {
+            "label": "build main,tle,generate for oj hack",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "main file debug build",
+                "tle file normal build",
+                "generate file normal build"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "generate file debug build",
+            "detail": "開いているファイルと同じディレクトリにあるgenerate.cppをデバッグビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileDirnameBasename}_generate.cpp",
+                "-o",
+                "${fileDirnameBasename}_generate.out",
+                "-g",
+                "-O0",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")",
+                "-DDEBUG",
+                "-D_FORTIFY_SOURCE=2",
+                "-D_GLIBCXX_DEBUG",
+                "-D_GLIBCXX_DEBUG_PEDANTIC",
+                "-fdiagnostics-color=always",
+                "-fno-sanitize-recover",
+                "-fsanitize=undefined,address",
+                "-Wall",
+                "-Wextra",
+                "-Wshadow",
+                "-Wformat=2",
+                "-Wfloat-equal",
+                "-Wconversion",
+                "-Wlogical-op",
+                "-Wshift-overflow=2",
+                "-Wduplicated-cond",
+                "-Wcast-qual",
+                "-Wcast-align=strict"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "generate file normal build",
+            "detail": "開いているファイルと同じディレクトリにあるgenerate.cppを通常ビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileDirnameBasename}_generate.cpp",
+                "-o",
+                "${fileDirnameBasename}_generate.out",
+                "-O2",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "tle file debug build",
+            "detail": "開いているファイルと同じディレクトリにあるtle.cppをデバッグビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileDirnameBasename}_tle.cpp",
+                "-o",
+                "${fileDirnameBasename}_tle.out",
+                "-g",
+                "-O0",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")",
+                "-DDEBUG",
+                "-D_FORTIFY_SOURCE=2",
+                "-D_GLIBCXX_DEBUG",
+                "-D_GLIBCXX_DEBUG_PEDANTIC",
+                "-fdiagnostics-color=always",
+                "-fno-sanitize-recover",
+                "-fsanitize=undefined,address",
+                "-Wall",
+                "-Wextra",
+                "-Wshadow",
+                "-Wformat=2",
+                "-Wfloat-equal",
+                "-Wconversion",
+                "-Wlogical-op",
+                "-Wshift-overflow=2",
+                "-Wduplicated-cond",
+                "-Wcast-qual",
+                "-Wcast-align=strict"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "tle file normal build",
+            "detail": "開いているファイルと同じディレクトリにあるtle.cppを通常ビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileDirnameBasename}_tle.cpp",
+                "-o",
+                "${fileDirnameBasename}_tle.out",
+                "-O2",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "main file debug build",
+            "detail": "開いているファイルと同じディレクトリにあるmain.cppをデバッグビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileDirnameBasename}_main.cpp",
+                "-o",
+                "${fileDirnameBasename}_main.out",
+                "-g",
+                "-O0",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")",
+                "-DDEBUG",
+                "-D_FORTIFY_SOURCE=2",
+                "-D_GLIBCXX_DEBUG",
+                "-D_GLIBCXX_DEBUG_PEDANTIC",
+                "-fdiagnostics-color=always",
+                "-fno-sanitize-recover",
+                "-fsanitize=undefined,address",
+                "-Wall",
+                "-Wextra",
+                "-Wshadow",
+                "-Wformat=2",
+                "-Wfloat-equal",
+                "-Wconversion",
+                "-Wlogical-op",
+                "-Wshift-overflow=2",
+                "-Wduplicated-cond",
+                "-Wcast-qual",
+                "-Wcast-align=strict"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "main file normal build",
+            "detail": "開いているファイルと同じディレクトリにあるmain.cppを通常ビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileDirnameBasename}_main.cpp",
+                "-o",
+                "${fileDirnameBasename}_main.out",
+                "-O2",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "hide": true
+        },
+        {
+            "type": "cppbuild",
+            "label": "開いているファイルをデバッグビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}.out",
+                "-g",
+                "-O0",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")",
+                "-DDEBUG",
+                "-D_FORTIFY_SOURCE=2",
+                "-D_GLIBCXX_DEBUG",
+                "-D_GLIBCXX_DEBUG_PEDANTIC",
+                "-fdiagnostics-color=always",
+                "-fno-sanitize-recover",
+                "-fsanitize=undefined,address",
+                "-Wall",
+                "-Wextra",
+                "-Wshadow",
+                "-Wformat=2",
+                "-Wfloat-equal",
+                "-Wconversion",
+                "-Wlogical-op",
+                "-Wshift-overflow=2",
+                "-Wduplicated-cond",
+                "-Wcast-qual",
+                "-Wcast-align=strict"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "cppbuild",
+            "label": "開いているファイルを通常ビルドする",
+            "command": "/usr/local/bin/g++",
+            "args": [
+                "-std=gnu++23",
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}.out",
+                "-O2",
+                "$(",
+                "python3",
+                "${workspaceFolder}/script/include-path-args.py",
+                "${workspaceFolder}/library",
+                ")"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            }
+        }
+    ],
+    "inputs": [
+        {
+            "id": "ContestId",
+            "description": "コンテストidを入力（https://atcoder.jp/contests/abc123ならabc123）",
+            "type": "promptString"
+        }
+    ],
+    "version": "2.0.0"
+}
