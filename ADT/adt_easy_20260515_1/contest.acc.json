@@ -1,0 +1,64 @@
+{
+  "contest": {
+    "id": "adt_easy_20260515_1",
+    "title": "AtCoder Daily Training EASY 2026/05/15 16:00start",
+    "url": "https://atcoder.jp/contests/adt_easy_20260515_1"
+  },
+  "tasks": [
+    {
+      "id": "abc362_a",
+      "label": "A",
+      "title": "Buy a Pen",
+      "url": "https://atcoder.jp/contests/adt_easy_20260515_1/tasks/abc362_a",
+      "directory": {
+        "path": "A",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc223_a",
+      "label": "B",
+      "title": "Exact Price",
+      "url": "https://atcoder.jp/contests/adt_easy_20260515_1/tasks/abc223_a",
+      "directory": {
+        "path": "B",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc364_b",
+      "label": "C",
+      "title": "Grid Walk",
+      "url": "https://atcoder.jp/contests/adt_easy_20260515_1/tasks/abc364_b",
+      "directory": {
+        "path": "C",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc424_b",
+      "label": "D",
+      "title": "Perfect",
+      "url": "https://atcoder.jp/contests/adt_easy_20260515_1/tasks/abc424_b",
+      "directory": {
+        "path": "D",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc356_c",
+      "label": "E",
+      "title": "Keys",
+      "url": "https://atcoder.jp/contests/adt_easy_20260515_1/tasks/abc356_c",
+      "directory": {
+        "path": "E",
+        "testdir": "test",
+        "submit": ""
+      }
+    }
+  ]
+}

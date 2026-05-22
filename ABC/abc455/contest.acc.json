@@ -1,0 +1,86 @@
+{
+  "contest": {
+    "id": "abc455",
+    "title": "Ｓｋｙ Inc, Programming Contest 2026 (AtCoder Beginner Contest 455)",
+    "url": "https://atcoder.jp/contests/abc455"
+  },
+  "tasks": [
+    {
+      "id": "abc455_a",
+      "label": "A",
+      "title": "455",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_a",
+      "directory": {
+        "path": "A",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc455_b",
+      "label": "B",
+      "title": "Spiral Galaxy",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_b",
+      "directory": {
+        "path": "B",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc455_c",
+      "label": "C",
+      "title": "Vanish",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_c",
+      "directory": {
+        "path": "C",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc455_d",
+      "label": "D",
+      "title": "Card Pile Query",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_d",
+      "directory": {
+        "path": "D",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc455_e",
+      "label": "E",
+      "title": "Unbalanced ABC Substrings",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_e",
+      "directory": {
+        "path": "E",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc455_f",
+      "label": "F",
+      "title": "Merge Slimes 2",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_f",
+      "directory": {
+        "path": "F",
+        "testdir": "test",
+        "submit": ""
+      }
+    },
+    {
+      "id": "abc455_g",
+      "label": "G",
+      "title": "Balanced Subarrays",
+      "url": "https://atcoder.jp/contests/abc455/tasks/abc455_g",
+      "directory": {
+        "path": "G",
+        "testdir": "test",
+        "submit": ""
+      }
+    }
+  ]
+}
