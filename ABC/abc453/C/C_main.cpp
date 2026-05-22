@@ -1,30 +1,34 @@
-#include <bits/stdc++.h>
+#include<bits/stdc++.h>
+
 using namespace std;
+using ll=long long;
 
-using ll  = long long;
-using VL  = vector<ll>;
-using VVL = vector<VL>;
+ll sgn(ll x){
+  if(x>0){return 1;}
+  else if(x<0){return -1;}
+  return 0;
+}
 
-#define rep(i, n)      for (ll i = 0; i < (ll)(n); i++)
-#define rep1(i, n)     for (ll i = 1; i <= (ll)(n); i++)
-#define repi(i, a, b)  for (ll i = (ll)(a); i < (ll)(b); i++)
-#define repr(i, n)     for (ll i = (ll)(n) - 1; i >= 0; i--)
-#define all(x)         (x).begin(), (x).end()
-#define rall(x)        (x).rbegin(), (x).rend()
-#define sz(x)          ((ll)(x).size())
-
-#ifdef LOCAL
-#define dbg(x)   cerr << #x << " = " << (x) << "\n"
-#define dbgv(v)  { cerr << #v << " = ["; for (auto& _x : (v)) cerr << _x << ", "; cerr << "]\n"; }
-#define dbgvv(v) { cerr << #v << ":\n"; for (auto& _row : (v)) { for (auto& _x : _row) cerr << _x << " "; cerr << "\n"; } }
-#else
-#define dbg(x)
-#define dbgv(v)
-#define dbgvv(v)
-#endif
-
-const string YN[2] = {"Yes", "No"};
-
-int main() {
-
+int main(){
+  ll n;
+  cin >> n;
+  vector<ll> l(n);
+  for(auto &nx : l){
+    cin >> nx;
+    nx*=2;
+  }
+  ll best=0;
+  for(ll i=0;i<(1ll<<n);i++){
+    ll pos=1,cur=0;
+    for(ll j=0;j<n;j++){
+      ll npos=pos;
+      if(i&(1ll<<j)){npos+=l[j];}
+      else{npos-=l[j];}
+      if(sgn(pos)*sgn(npos)<0){cur++;}
+      pos=npos;
+    }
+    best=max(best,cur);
+  }
+  cout << best << "\n";
+  return 0;
 }
