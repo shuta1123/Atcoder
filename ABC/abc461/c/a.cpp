@@ -24,37 +24,28 @@ using VVL = vector<VL>;
 #endif
 
 const string YN[2] = {"Yes", "No"};
-
-bool ch(ll t,ll x,ll y){
-    ll ido=abs(x)+abs(y);
-    if(t<ido){
-        return false;
-    }
-    if((t-ido)%2==0){
-        return true;
-    }
-    return false;
-}
+map<ll,VL> ma;
+VL v;
 
 int main() {
-    ll n,t,t1,x,x1,y,y1;
-    cin>>n>>t>>x>>y;
-    bool b=true;
-    b=ch(t,x,y);
-    rep(i,n-1){
-        if(!b){
-            break;
-        }
-        cin>>t1>>x1>>y1;
-        b=ch(t1-t,x1-x,y1-y);
-        // cout<<t1-t<<' ' <<x1-x<<' '<<y1-y<<endl;
-        t=t1;
-        x=x1;
-        y=y1;
+    ll n,k,m,t1,t2,an=0;
+    cin>>n>>k>>m;
+    
+    rep(i,n){
+        cin>>t1>>t2;
+        ma[t1].push_back(t2);
     }
-    if(b){
-        cout<<YN[0]<<endl;
-    }else{
-        cout<<YN[1]<<endl;
+    VL rest;
+    for(auto& [key, vals]:ma){
+        sort(rall(vals));
+        v.push_back(vals[0]);
+        repi(i,1,sz(vals)) rest.push_back(vals[i]);
     }
+    sort(rall(v));
+    rep(i,m) an+=v[i];
+    repi(i,m,sz(v)) rest.push_back(v[i]);
+    sort(rall(rest));
+    rep(i,k-m) an+=rest[i];
+    cout<<an<<endl;
+
 }

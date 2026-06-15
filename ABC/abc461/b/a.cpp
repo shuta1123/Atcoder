@@ -25,36 +25,24 @@ using VVL = vector<VL>;
 
 const string YN[2] = {"Yes", "No"};
 
-bool ch(ll t,ll x,ll y){
-    ll ido=abs(x)+abs(y);
-    if(t<ido){
-        return false;
-    }
-    if((t-ido)%2==0){
-        return true;
-    }
-    return false;
-}
-
 int main() {
-    ll n,t,t1,x,x1,y,y1;
-    cin>>n>>t>>x>>y;
-    bool b=true;
-    b=ch(t,x,y);
-    rep(i,n-1){
-        if(!b){
+    ll n;
+    cin>>n;
+    VL a(n);
+    map<ll,ll> b;
+    rep(i,n){
+        cin>>a.at(i);
+    }
+    rep(i,n){
+        cin>>b[i];
+    }
+    ll f=0;
+    rep(i,n){
+        if(i!=b[a.at(i)-1]-1){
+            // cout<<i<<' '<<a.at(i)<<' '<<b[a.at(i)]<<endl;
+            f=1;
             break;
-        }
-        cin>>t1>>x1>>y1;
-        b=ch(t1-t,x1-x,y1-y);
-        // cout<<t1-t<<' ' <<x1-x<<' '<<y1-y<<endl;
-        t=t1;
-        x=x1;
-        y=y1;
+        }   
     }
-    if(b){
-        cout<<YN[0]<<endl;
-    }else{
-        cout<<YN[1]<<endl;
-    }
+    cout<<YN[f]<<endl;
 }
